@@ -64,7 +64,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkTabBar, ClkTabFloat, ClkTabPrev, ClkTabNext, ClkTabClose, ClkLtSymbol, ClkStatusText,
+enum { ClkTagBar, ClkTabBar, ClkTabFloat, ClkTabSticky, ClkTabPrev, ClkTabNext, ClkTabClose, ClkLtSymbol, ClkStatusText,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
@@ -138,7 +138,7 @@ struct Monitor {
 	Window tabwin;
 	int ntabs;
 	int tab_widths[MAXTABS];
-    int tab_btn_w[4];
+    int tab_btn_w[5];
 	const Layout *lt[2];
     Pertag *pertag;
 };
@@ -491,8 +491,8 @@ buttonpress(XEvent *e)
 			arg.ui = i;
 		} else {
             x = selmon->ww;
-			for (loop = 3; loop >= 0; loop--) {
-				x -= selmon->tab_btn_w[loop];
+			for (loop = 4; loop >= 0; loop--) {
+				x -= selmon->tab_btn_w[0];
 				if (ev->x > x)
 					break;
 			}
@@ -850,6 +850,7 @@ drawtab(Monitor *m) {
 	Client *c;
 	int i;
     char *btn_float = "";
+    char *btn_sticky = "";
     char *btn_prev = "";
 	char *btn_next = "";
 	char *btn_close = "";
@@ -864,6 +865,7 @@ drawtab(Monitor *m) {
 	int w = 0;
 
 	buttons_w += TEXTW(btn_float) - lrpad + horizpadtabo;
+	buttons_w += TEXTW(btn_sticky) - lrpad + horizpadtabo;
 	buttons_w += TEXTW(btn_prev) - lrpad + horizpadtabo;
 	buttons_w += TEXTW(btn_next) - lrpad + horizpadtabo;
 	buttons_w += TEXTW(btn_close) - lrpad + horizpadtabo;
@@ -900,6 +902,7 @@ drawtab(Monitor *m) {
 	}
 
 	if(tot_width > m->ww){ //not enough space to display the labels, they need to be truncated
+      tot_width = 0; // recalculate total width of the tab bar
 	  memcpy(sorted_label_widths, m->tab_widths, sizeof(int) * m->ntabs);
 	  qsort(sorted_label_widths, m->ntabs, sizeof(int), cmpint);
 	  tot_width = view_info_w;
@@ -935,7 +938,6 @@ drawtab(Monitor *m) {
 	w = view_info_w;
 	drw_text(drw, x - buttons_w, 0, w, th, 0, view_info, 0);
 
-
     w = m->ww - buttons_w - x;
 	x += w;
 	drw_setscheme(drw, scheme[SchemeNorm]);
@@ -944,16 +946,20 @@ drawtab(Monitor *m) {
 	m->tab_btn_w[0] = w;
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_float, 0);
 	x += w;
-	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
+	w = TEXTW(btn_sticky) - lrpad + horizpadtabo;
 	m->tab_btn_w[1] = w;
+	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_sticky, 0);
+	x += w;
+	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
+	m->tab_btn_w[2] = w;
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_prev, 0);
 	x += w;
 	w = TEXTW(btn_next) - lrpad + horizpadtabo;
-	m->tab_btn_w[2] = w;
+	m->tab_btn_w[3] = w;
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_next, 0);
 	x += w;
 	w = TEXTW(btn_close) - lrpad + horizpadtabo;
-	m->tab_btn_w[3] = w;
+	m->tab_btn_w[4] = w;
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_close, 0);
 	x += w;
 
