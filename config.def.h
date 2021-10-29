@@ -5,6 +5,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int horizpadtabo       = 15;
 /*  Display modes of the tab bar: never shown, always shown, shown only in  */
 /*  monocle mode in the presence of several windows.                        */
 /*  Modes after showtab_nmodes are disabled.                                */
@@ -126,4 +127,8 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
+    { ClkTabFloat,          0,              Button1,        togglefloating,  {0} },
+    { ClkTabPrev,           0,              Button1,        focusstack,      { .i = -1 } },
+    { ClkTabNext,           0,              Button1,        focusstack,      { .i = +1 } },
+    { ClkTabClose,          0,              Button1,        killclient,     {0} },
 };

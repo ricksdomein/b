@@ -64,7 +64,7 @@ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
-enum { ClkTagBar, ClkTabBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+enum { ClkTagBar, ClkTabBar, ClkTabFloat, ClkTabPrev, ClkTabNext, ClkTabClose, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef union {
@@ -138,6 +138,7 @@ struct Monitor {
 	Window tabwin;
 	int ntabs;
 	int tab_widths[MAXTABS];
+    int tab_btn_w[4];
 	const Layout *lt[2];
     Pertag *pertag;
 };
@@ -444,6 +445,7 @@ void
 buttonpress(XEvent *e)
 {
 	unsigned int i, x, click;
+    int loop;
 	Arg arg = {0};
 	Client *c;
 	Monitor *m;
@@ -482,9 +484,18 @@ buttonpress(XEvent *e)
 				break;
 			if(i >= m->ntabs) break;
 		}
-		if(c) {
+        if(c && ev->x <= x) {
 			click = ClkTabBar;
 			arg.ui = i;
+		} else {
+            x = selmon->ww;
+			for (loop = 3; loop >= 0; loop--) {
+				x -= selmon->tab_btn_w[loop];
+				if (ev->x > x)
+					break;
+			}
+            if (ev->x >= x)
+			    click = ClkTabFloat + loop;
 		}
 	}
 	else if((c = wintoclient(ev->window))) {
@@ -843,6 +854,11 @@ void
 drawtab(Monitor *m) {
 	Client *c;
 	int i;
+    char *btn_float = "";
+    char *btn_prev = "";
+	char *btn_next = "";
+	char *btn_close = "";
+	int buttons_w = 0;
 	int itag = -1;
 	char view_info[50];
 	int view_info_w = 0;
@@ -851,6 +867,12 @@ drawtab(Monitor *m) {
 	int maxsize = bh;
 	int x = 0;
 	int w = 0;
+
+	buttons_w += TEXTW(btn_float) - lrpad + horizpadtabo;
+	buttons_w += TEXTW(btn_prev) - lrpad + horizpadtabo;
+	buttons_w += TEXTW(btn_next) - lrpad + horizpadtabo;
+	buttons_w += TEXTW(btn_close) - lrpad + horizpadtabo;
+    tot_width = buttons_w;
 
 	//view_info: indicate the tag which is displayed in the view
 	for(i = 0; i < LENGTH(tags); ++i){
@@ -916,7 +938,30 @@ drawtab(Monitor *m) {
 	/* view info */
 	x += w;
 	w = view_info_w;
-	drw_text(drw, x, 0, w, th, 0, view_info, 0);
+	drw_text(drw, x - buttons_w, 0, w, th, 0, view_info, 0);
+
+
+    w = m->ww - buttons_w - x;
+	x += w;
+	drw_setscheme(drw, scheme[SchemeNorm]);
+
+	w = TEXTW(btn_float) - lrpad + horizpadtabo;
+	m->tab_btn_w[0] = w;
+	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_float, 0);
+	x += w;
+	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
+	m->tab_btn_w[1] = w;
+	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_prev, 0);
+	x += w;
+	w = TEXTW(btn_next) - lrpad + horizpadtabo;
+	m->tab_btn_w[2] = w;
+	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_next, 0);
+	x += w;
+	w = TEXTW(btn_close) - lrpad + horizpadtabo;
+	m->tab_btn_w[3] = w;
+	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_close, 0);
+	x += w;
+
 
 	drw_map(drw, m->tabwin, 0, 0, m->ww, th);
 }
@@ -2072,7 +2117,7 @@ updatebarpos(Monitor *m)
 		if(ISVISIBLE(c)) ++nvis;
 	}
 
-	if(m->showtab == showtab_always
+	if((m->showtab == showtab_always && (nvis > 0))
             || ((m->showtab == showtab_auto) && (nvis > 1) && (m->lt[m->sellt]->arrange == monocle))) {
 		m->wh -= th;
 		m->ty = m->toptab ? m->wy : m->wy + m->wh;
