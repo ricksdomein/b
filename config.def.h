@@ -50,9 +50,9 @@ static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [TagFocus]         = { yellow, black, black },
     [SchemeStatus]     = { text,  black, black },
-    [SchemeNorm]       = { gray3, black, black },
-    [SchemeSel]        = { gray4, blue,  gray4  },
-    [TabSel]           = { blue, gray2,  black  },
+    [SchemeNorm]       = { gray3, black, gray2 },
+    [SchemeSel]        = { gray4, blue,  gray4 },
+    [TabSel]           = { blue, gray2,  black },
     [TabNorm]          = { gray3, black, black },
     [SchemeTag]        = { gray3, black, black },
     [SchemeTag1]       = { blue,  black, black },
