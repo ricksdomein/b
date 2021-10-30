@@ -25,14 +25,49 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for selected tag */
+
+// theme
+static const char text[]        = "#bbbbbb";
+static const char black[]       = "#1e222a";
+static const char gray2[]       = "#2e323a"; // unfocused window border
+static const char gray3[]       = "#545862";
+static const char gray4[]       = "#6d8dad";
+static const char blue[]        = "#61afef";  // focused window border
+static const char green[]       = "#7EC7A2";
+static const char red[]         = "#e06c75";
+static const char orange[]      = "#caaa6a";
+static const char yellow[]      = "#EBCB8B";
+static const char pink[]        = "#c678dd";
+static const char col_borderbar[]  = "#1e222a"; // inner border
+
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+    /*               fg         bg         border   */
+    [SchemeStatus]     = { text,  black, gray2 },
+    [SchemeNorm]       = { gray3, black, gray2 },
+    [SchemeSel]        = { gray4, blue,  gray4  },
+    [TabSel]           = { blue, gray2,  black  },
+    [TabNorm]          = { gray3, black, black },
+    [SchemeTag]        = { gray3, black, black },
+    [SchemeTag1]       = { blue,  black, black },
+    [SchemeTag2]       = { red,   black, black },
+    [SchemeTag3]       = { orange, black,black },
+    [SchemeTag4]       = { green, black, black },
+    [SchemeTag5]       = { pink,  black, black },
+    [SchemeLayout]     = { green, black, black },
+    [SchemeBtnFloat]   = { blue, black, black },
+    [SchemeBtnSticky]  = { pink, black, black },
+    [SchemeBtnPrev]    = { green, black, black },
+    [SchemeBtnNext]    = { yellow, black, black },
+    [SchemeBtnClose]   = { red, black, black },
 };
 
 /* tagging */
-static const char *tags[] = { " ", " ", " ", " ", " " };
+static const char *tags[] = { "", "", "", "", "" };
+
+static const int tagschemes[] = { SchemeTag1, SchemeTag2, SchemeTag3,
+                                  SchemeTag4, SchemeTag5
+                                };
 
 /* default layout per tags */
 /* The first element is for all-tag view, following i-th element corresponds to */

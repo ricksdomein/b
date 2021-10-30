@@ -59,7 +59,25 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum {
+  SchemeStatus,
+  SchemeNorm,
+  SchemeSel,
+  SchemeTag,
+  SchemeTag1,
+  SchemeTag2,
+  SchemeTag3,
+  SchemeTag4,
+  SchemeTag5,
+  SchemeLayout,
+  TabSel,
+  TabNorm,
+  SchemeBtnFloat,
+  SchemeBtnSticky,
+  SchemeBtnPrev,
+  SchemeBtnNext,
+  SchemeBtnClose
+}; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -126,6 +144,7 @@ struct Monitor {
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
+    unsigned int colorfultag;
 	int showbar;
 	int showtab;
 	int topbar;
@@ -698,6 +717,7 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->showtab = showtab;
+    m->colorfultag = colorfultag ? colorfultag : 0;
 	m->topbar = topbar;
 	m->toptab = toptab;
 	m->ntabs = 0;
@@ -788,7 +808,7 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		drw_setscheme(drw, scheme[SchemeNorm]);
+		drw_setscheme(drw, scheme[SchemeStatus]);
 		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
 		drw_text(drw, m->ww - tw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
 	}
@@ -801,12 +821,12 @@ drawbar(Monitor *m)
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+        drw_setscheme(drw, scheme[occ & 1 << i ? (m->colorfultag ? tagschemes[i] : SchemeSel) : SchemeTag]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
-	drw_setscheme(drw, scheme[SchemeNorm]);
+	drw_setscheme(drw, scheme[SchemeLayout]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
@@ -892,13 +912,13 @@ drawtab(Monitor *m) {
 	  if(i >= m->ntabs) break;
 	  if(m->tab_widths[i] >  maxsize) m->tab_widths[i] = maxsize;
 	  w = m->tab_widths[i];
-	  drw_setscheme(drw, scheme[(c == m->sel) ? SchemeSel : SchemeNorm]);
+	  drw_setscheme(drw, scheme[(c == m->sel) ? TabSel : TabNorm]);
 	  drw_text(drw, x, 0, w, th, 0, c->name, 0);
 	  x += w;
 	  ++i;
 	}
 
-	drw_setscheme(drw, scheme[SchemeNorm]);
+	drw_setscheme(drw, scheme[TabNorm]);
 
 	/* cleans interspace between window names and current viewed tag label */
 	w = m->ww - view_info_w - x;
@@ -906,24 +926,29 @@ drawtab(Monitor *m) {
 
     w = m->ww - buttons_w - x;
 	x += w;
-	drw_setscheme(drw, scheme[SchemeNorm]);
+	drw_setscheme(drw, scheme[TabNorm]);
 
+    drw_setscheme(drw, scheme[SchemeBtnFloat]);
 	w = TEXTW(btn_float) - lrpad + horizpadtabo;
 	m->tab_btn_w[0] = w;
 	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_float, 0);
 	x += w;
+    drw_setscheme(drw, scheme[SchemeBtnSticky]);
 	w = TEXTW(btn_sticky) - lrpad + horizpadtabo;
 	m->tab_btn_w[1] = w;
 	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_sticky, 0);
 	x += w;
+    drw_setscheme(drw, scheme[SchemeBtnPrev]);
 	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
 	m->tab_btn_w[2] = w;
 	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_prev, 0);
 	x += w;
+    drw_setscheme(drw, scheme[SchemeBtnNext]);
 	w = TEXTW(btn_next) - lrpad + horizpadtabo;
 	m->tab_btn_w[3] = w;
 	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_next, 0);
 	x += w;
+    drw_setscheme(drw, scheme[SchemeBtnClose]);
 	w = TEXTW(btn_close) - lrpad + horizpadtabo;
 	m->tab_btn_w[4] = w;
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_close, 0);
