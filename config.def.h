@@ -159,6 +159,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
+	{ MODKEY,                       XK_e,      hidewin,        {0} },
+	{ MODKEY|ShiftMask,             XK_e,      restorewin,     {0} },
 };
 
 /* button definitions */
