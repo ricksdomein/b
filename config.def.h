@@ -16,6 +16,10 @@ static const int horizpadtabo       = 15;
 enum showtab_modes { showtab_always, showtab_auto, showtab_nmodes, showtab_never };
 static const int showtab			= showtab_auto;        /* Default tab bar show mode */
 static const int toptab				= True;               /* False means bottom tab bar */
+static const unsigned int ulinepad	= 6;	/* horizontal padding between the underline and tag */
+static const unsigned int ulinestroke	= 3;	/* thickness / height of the underline */
+static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the bar the line should appear */
+static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:style:medium:size=10",
                                         "Material Design Icons-Regular:size=10",
@@ -44,8 +48,9 @@ static const char col_borderbar[]  = "#1e222a"; // inner border
 
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
-    [SchemeStatus]     = { text,  black, gray2 },
-    [SchemeNorm]       = { gray3, black, gray2 },
+    [TagFocus]         = { yellow, black, black },
+    [SchemeStatus]     = { text,  black, black },
+    [SchemeNorm]       = { gray3, black, black },
     [SchemeSel]        = { gray4, blue,  gray4  },
     [TabSel]           = { blue, gray2,  black  },
     [TabNorm]          = { gray3, black, black },
