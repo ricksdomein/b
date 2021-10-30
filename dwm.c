@@ -930,10 +930,12 @@ drawtab(Monitor *m) {
       if (c->isfloating) {
           drw_setscheme(drw, scheme[SchemeBtnFloat]);
           drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+	      x += 10;
       }
       if (c->issticky) {
-          	drw_setscheme(drw, scheme[SchemeBtnSticky]);
+          drw_setscheme(drw, scheme[SchemeBtnSticky]);
           drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+          x += 10;
       }
 	  x += w;
 	  ++i;
