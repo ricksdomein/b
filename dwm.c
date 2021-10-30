@@ -868,7 +868,6 @@ drawtab(Monitor *m) {
 	char *btn_next = "";
 	char *btn_close = "";
 	int buttons_w = 0;
-	int view_info_w = 0;
 	int sorted_label_widths[MAXTABS];
 	int tot_width = 0;
 	int maxsize = bh;
@@ -886,7 +885,7 @@ drawtab(Monitor *m) {
 	m->ntabs = 0;
 	for(c = m->clients; c; c = c->next){
 	  if(!ISVISIBLE(c)) continue;
-	  m->tab_widths[m->ntabs] = MAX(MIN(TEXTW(c->name), 250), 250);
+	  m->tab_widths[m->ntabs] = MAX(MIN(TEXTW(c->name) - lrpad + horizpadtabi + horizpadtabo, 250), 250);
 	  tot_width += m->tab_widths[m->ntabs];
 	  ++m->ntabs;
 	  if(m->ntabs >= MAXTABS) break;
@@ -907,22 +906,21 @@ drawtab(Monitor *m) {
 	  maxsize = m->ww;
 	}
 	i = 0;
+
+    /* cleans window */
+	drw_setscheme(drw, scheme[SchemeNorm]);
+	drw_rect(drw, 0, 0, m->ww, th, 1, 1);
+
 	for(c = m->clients; c; c = c->next){
 	  if(!ISVISIBLE(c)) continue;
 	  if(i >= m->ntabs) break;
 	  if(m->tab_widths[i] >  maxsize) m->tab_widths[i] = maxsize;
 	  w = m->tab_widths[i];
 	  drw_setscheme(drw, scheme[(c == m->sel) ? TabSel : TabNorm]);
-	  drw_text(drw, x, 0, w, th, 0, c->name, 0);
+      drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w - horizpadtabo, th - vertpadbar, horizpadtabi / 2, c->name, 0);
 	  x += w;
 	  ++i;
 	}
-
-	drw_setscheme(drw, scheme[TabNorm]);
-
-	/* cleans interspace between window names and current viewed tag label */
-	w = m->ww - view_info_w - x;
-	drw_text(drw, x, 0, w, th, 0, "", 0);
 
     w = m->ww - buttons_w - x;
 	x += w;
@@ -1783,7 +1781,7 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h + horizpadbar;
 	bh = drw->fonts->h + vertpadbar;
-	th = bh;
+	th = vertpadtab;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
