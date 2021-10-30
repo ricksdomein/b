@@ -789,8 +789,8 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px right padding */
+		drw_text(drw, m->ww - tw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -809,9 +809,6 @@ drawbar(Monitor *m)
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
-	if ((w = m->ww - tw - x) > bh) {
-		drw_setscheme(drw, scheme[SchemeNorm]);
-	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
 
@@ -913,19 +910,19 @@ drawtab(Monitor *m) {
 
 	w = TEXTW(btn_float) - lrpad + horizpadtabo;
 	m->tab_btn_w[0] = w;
-	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_float, 0);
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_float, 0);
 	x += w;
 	w = TEXTW(btn_sticky) - lrpad + horizpadtabo;
 	m->tab_btn_w[1] = w;
-	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_sticky, 0);
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_sticky, 0);
 	x += w;
 	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
 	m->tab_btn_w[2] = w;
-	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_prev, 0);
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_prev, 0);
 	x += w;
 	w = TEXTW(btn_next) - lrpad + horizpadtabo;
 	m->tab_btn_w[3] = w;
-	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_next, 0);
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_next, 0);
 	x += w;
 	w = TEXTW(btn_close) - lrpad + horizpadtabo;
 	m->tab_btn_w[4] = w;
@@ -1759,8 +1756,8 @@ setup(void)
 	drw = drw_create(dpy, screen, root, sw, sh);
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + 2;
+	lrpad = drw->fonts->h + horizpadbar;
+	bh = drw->fonts->h + vertpadbar;
 	th = bh;
 	updategeom();
 	/* init atoms */
