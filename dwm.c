@@ -879,10 +879,6 @@ drawtab(Monitor *m) {
 	int x = 0;
 	int w = 0;
 
-
-	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
-
 	buttons_w += TEXTW(btn_float) - lrpad + horizpadtabo;
 	buttons_w += TEXTW(btn_sticky) - lrpad + horizpadtabo;
 	buttons_w += TEXTW(btn_prev) - lrpad + horizpadtabo;
@@ -927,16 +923,20 @@ drawtab(Monitor *m) {
 	  w = m->tab_widths[i];
 	  drw_setscheme(drw, scheme[(c == m->sel) ? TabSel : TabNorm]);
       drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w - horizpadtabo, th - vertpadbar, horizpadtabi / 2, c->name, 0);
+
+	  int boxs = drw->fonts->h / 9;
+	  int boxw = drw->fonts->h / 6 + 2;
+      int boxCount = 0;
       if (c->isfloating) {
           drw_setscheme(drw, scheme[SchemeBtnFloat]);
           drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
-	      x += 10;
+          boxCount = 10;
       }
       if (c->issticky) {
           drw_setscheme(drw, scheme[SchemeBtnSticky]);
-          drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
-          x += 10;
+          drw_rect(drw, x + boxs + boxCount, boxs, boxw, boxw, m->sel->isfixed, 0);
       }
+
 	  x += w;
 	  ++i;
 	}
