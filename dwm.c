@@ -509,7 +509,7 @@ attachstack(Client *c)
 void
 buttonpress(XEvent *e)
 {
-	unsigned int i, x, click;
+	unsigned int i, x, click, w1;
     int loop;
 	Arg arg = {0};
 	Client *c;
@@ -563,7 +563,7 @@ buttonpress(XEvent *e)
 		}
 	}
 	if(ev->window == selmon->tabwin) {
-		i = 0; x = 0;
+		i = 0; x = 0; w1 = 0;
 		for(c = selmon->clients; c; c = c->next){
 			if(!ISVISIBLE(c)) continue;
 			x += selmon->tab_widths[i];
@@ -573,18 +573,28 @@ buttonpress(XEvent *e)
 				break;
 			if(i >= m->ntabs) break;
 		}
-        if(c && ev->x <= x) {
+
+        if (c) {
+		    for (loop = 1; loop >= 0; loop--) {
+		    	w1 += selmon->tab_btn_w[0];
+		    	if (ev->x < w1)
+		    		break;
+		    }
+		    click = ClkTabSticky - loop;
+        }
+
+        if(c && ev->x <= x + w1 && ev->x > w1) {
 			click = ClkTabBar;
 			arg.ui = i;
-		} else {
+		} else if(c && ev->x > x + w1) {
             x = selmon->ww;
-			for (loop = 4; loop >= 0; loop--) {
+			for (loop = 2; loop >= 0; loop--) {
 				x -= selmon->tab_btn_w[0];
 				if (ev->x > x)
 					break;
 			}
             if (ev->x >= x)
-			    click = ClkTabFloat + loop;
+			    click = ClkTabPrev + loop;
 		}
 	}
 	else if((c = wintoclient(ev->window))) {
@@ -1142,19 +1152,20 @@ drawtab(Monitor *m) {
     char *btn_prev = "";
 	char *btn_next = "";
 	char *btn_close = "";
-	int buttons_w = 0;
+	int buttons_w1 = 0;
+	int buttons_w2 = 0;
 	int sorted_label_widths[MAXTABS];
 	int tot_width = 0;
 	int maxsize = bh;
 	int x = 0;
 	int w = 0;
 
-	buttons_w += TEXTW(btn_float) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_sticky) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_prev) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_next) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_close) - lrpad + horizpadtabo;
-    tot_width = buttons_w;
+	buttons_w1 += TEXTW(btn_float) - lrpad + horizpadtabo;
+	buttons_w1 += TEXTW(btn_sticky) - lrpad + horizpadtabo;
+	buttons_w2 += TEXTW(btn_prev) - lrpad + horizpadtabo;
+	buttons_w2 += TEXTW(btn_next) - lrpad + horizpadtabo;
+	buttons_w2 += TEXTW(btn_close) - lrpad + horizpadtabo;
+    tot_width = buttons_w1 + buttons_w1;
 
 	/* Calculates number of labels and their width */
 	m->ntabs = 0;
@@ -1186,6 +1197,19 @@ drawtab(Monitor *m) {
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	drw_rect(drw, 0, 0, m->ww, th, 1, 1);
 
+	drw_setscheme(drw, scheme[TabNorm]);
+
+    drw_setscheme(drw, scheme[SchemeBtnFloat]);
+	w = TEXTW(btn_float) - lrpad + horizpadtabo;
+	m->tab_btn_w[0] = w;
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_float, 0);
+	x += w;
+    drw_setscheme(drw, scheme[SchemeBtnSticky]);
+	w = TEXTW(btn_sticky) - lrpad + horizpadtabo;
+	m->tab_btn_w[1] = w;
+	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_sticky, 0);
+	x += w;
+
 	for(c = m->clients; c; c = c->next){
 	  if(!ISVISIBLE(c)) continue;
 	  if(i >= m->ntabs) break;
@@ -1211,20 +1235,10 @@ drawtab(Monitor *m) {
 	  ++i;
 	}
 
-    w = m->ww - buttons_w - x;
+    w = m->ww - buttons_w2 - x;
 	x += w;
 	drw_setscheme(drw, scheme[TabNorm]);
 
-    drw_setscheme(drw, scheme[SchemeBtnFloat]);
-	w = TEXTW(btn_float) - lrpad + horizpadtabo;
-	m->tab_btn_w[0] = w;
-	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_float, 0);
-	x += w;
-    drw_setscheme(drw, scheme[SchemeBtnSticky]);
-	w = TEXTW(btn_sticky) - lrpad + horizpadtabo;
-	m->tab_btn_w[1] = w;
-	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_sticky, 0);
-	x += w;
     drw_setscheme(drw, scheme[SchemeBtnPrev]);
 	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
 	m->tab_btn_w[2] = w;
