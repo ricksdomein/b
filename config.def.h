@@ -53,7 +53,7 @@ static const char col_borderbar[]  = "#1e222a"; // inner border
 
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
-    [TagFocus]         = { yellow, black, black },
+    //[TagFocus]         = { yellow, black, black },
     [SchemeStatus]     = { text,  black, black },
     [SchemeNorm]       = { gray3, black, gray2 },
     [SchemeSel]        = { gray4, blue,  gray4 },
