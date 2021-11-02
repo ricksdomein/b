@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+/* Constants */
+#define TERMINAL "st"
+
 /* appearance */
 static const unsigned int borderpx  = 5;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -85,14 +88,28 @@ static const int tagschemes[] = { SchemeTag1, SchemeTag2, SchemeTag3,
 /* tags[i]. Layout is referred using the layouts array index.*/
 static int def_layouts[1 + LENGTH(tags)]  = { 2, 0, 2, 0, 0, 0 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spcalc",      spcmd2},
+};
+
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class      instance      title       tags mask       isfloating   monitor */
+	{ "Gimp",     NULL,         NULL,       0,              1,           -1 },
+	{ "Firefox",  NULL,         NULL,       1 << 8,         0,           -1 },
+	{ NULL,		  "spterm",	    NULL,	    SPTAG(0),	    1,			 -1 },
+	{ NULL,		  "spcalc",		NULL,		SPTAG(1),		1,			 -1 },
 };
 
 /* layout(s) */
@@ -166,6 +183,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
+    { MODKEY,			            XK_dead_acute,  togglescratch,	{.ui = 1} },
+    { MODKEY|ShiftMask,		        XK_Return,	    togglescratch,	{.ui = 0} },
 };
 
 #define STATUSBAR "dwmblocks"
