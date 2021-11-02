@@ -1078,7 +1078,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 void
 drawbar(Monitor *m)
 {
-    int x, w, tw, stw = 0;
+    int x, w, tw = 0, stw = 0;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -1116,7 +1116,7 @@ drawbar(Monitor *m)
 
     if ((w = m->ww - tw - x) > bh) {
 	    drw_setscheme(drw, scheme[SchemeNorm]);
-		drw_rect(drw, x, 0, w, bh, 1, 1);
+		drw_rect(drw, x, 0, w - tw - x, bh, 1, 1);
     }
 	drw_setscheme(drw, scheme[SchemeNorm]);
 
