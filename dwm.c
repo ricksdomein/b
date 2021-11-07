@@ -1113,10 +1113,12 @@ drawbar(Monitor *m)
 	w = blw = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeLayout]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+	//x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
     if ((w = m->ww - tw - x) > bh) {
-	    drw_setscheme(drw, scheme[SchemeNorm]);
-		drw_rect(drw, x, 0, w - tw - x, bh, 1, 1);
+            drw_setscheme(drw, scheme[SchemeNorm]);
+        	drw_rect(drw, x, 0, 1, bh, 1, 1);
+        	//drw_rect(drw, x, 0, w - tw - x, bh, 1, 1);
     }
 	drw_setscheme(drw, scheme[SchemeNorm]);
 
@@ -1354,6 +1356,7 @@ focusmon(const Arg *arg)
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
 	unfocus(selmon->sel, 0);
+        XWarpPointer(dpy, None, m->barwin, 0, 0, 0, 0, m->mw / 2, m->mh / 2);
 	selmon = m;
 	focus(NULL);
 }
