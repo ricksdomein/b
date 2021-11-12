@@ -1,4 +1,6 @@
 /* See LICENSE file for copyright and license details. */
+/* Constants */
+#define TERMINAL "st"
 
 /* appearance */
 static const unsigned int borderpx  = 5;        /* border pixel of windows */
@@ -91,8 +93,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	//{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ NULL,   "spterm",       NULL,       0,            1,           -1 },
+	{ NULL,   "spcalc",       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -123,9 +127,12 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { TERMINAL, NULL };
+const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 
 #include "movestack.c"
+#include <X11/XF86keysym.h>
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -168,6 +175,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_e,      spawn,          SHCMD("j4-dmenu-desktop --usage-log=$HOME/.cache/desktop-dmenu") },
 	{ MODKEY,                       XK_r,      spawn,          SHCMD("passmenu") },
+        { MODKEY,			XK_dead_acute,	spawn,	{.v = spcalc} },
+        { MODKEY|ShiftMask,		XK_Return,	spawn,	{.v = spterm} },
+  	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
+        { 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("lightdm -A 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("lightdm -U 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("pamixer -t; pkill -RTMIN+2 dwmblocks") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pamixer --allow-boost -i 1; pkill -RTMIN+2 dwmblocks") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer --allow-boost -d 1; pkill -RTMIN+2 dwmblocks") },
 };
 
 #define STATUSBAR "dwmblocks"
