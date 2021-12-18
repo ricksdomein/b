@@ -1460,7 +1460,7 @@ getstatusbarpid()
 		}
 	}
 	//if (!(fp = popen("pidof -s "STATUSBAR, "r")))
-    if (!(fp = popen("pgrep -o "STATUSBAR, "r")))
+        if (!(fp = popen("pgrep -o "STATUSBAR, "r")))
 		return -1;
 	fgets(buf, sizeof(buf), fp);
 	pclose(fp);
@@ -2395,8 +2395,6 @@ sigstatusbar(const Arg *arg)
 void
 spawn(const Arg *arg)
 {
-	if (arg->v == dmenucmd)
-		dmenumon[0] = '0' + selmon->num;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));

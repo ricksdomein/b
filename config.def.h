@@ -31,12 +31,6 @@ static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just 
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:style:medium:size=10",
                                         "Material Design Icons-Regular:size=10",
                                       };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
 static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for selected tag */
 
 // theme
@@ -125,8 +119,6 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { TERMINAL, NULL };
 const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
 const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
@@ -135,7 +127,7 @@ const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g
 #include <X11/XF86keysym.h>
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	//{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_w,      tabmode,        {-1} },
@@ -194,6 +186,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = "0x 0y 25w 0h" } },
 	{ MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = "0x 0y -25w 0h" } },
         { MODKEY,                       XK_g,      center,         {0} },
+        { MODKEY,                       XK_End,         spawn,     SHCMD("sysact") },
 };
 
 #define STATUSBAR "dwmblocks"
