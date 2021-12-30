@@ -104,7 +104,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-    { "[D]",      deck },
+    	{ "[D]",      deck },
 };
 
 /* key definitions */
@@ -119,9 +119,11 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[]  = { TERMINAL, NULL };
-const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
-const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+static const char *termcmd[]  = { TERMINAL, "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
+//const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
+//const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
+const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "nvim", "-c" ":terminal bc -lq", "-c", ":startinsert", NULL };
 
 #include "movestack.c"
 #include <X11/XF86keysym.h>
@@ -169,15 +171,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e,      spawn,          SHCMD("j4-dmenu-desktop --usage-log=$HOME/.cache/desktop-dmenu") },
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu2") },
         { MODKEY,			XK_dead_acute,	spawn,	{.v = spcalc} },
+        { MODKEY,			XK_apostrophe,	spawn,	{.v = spcalc} },
         { MODKEY|ShiftMask,		XK_Return,	spawn,	{.v = spterm} },
-  	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
-        { 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
-	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("pamixer -t; pkill -RTMIN+2 dwmblocks") },
-	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pamixer --allow-boost -i 1; pkill -RTMIN+2 dwmblocks") },
-	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer --allow-boost -d 1; pkill -RTMIN+2 dwmblocks") },
 	{ MODKEY,                       XK_Down,   moveresize,     {.v = "0x 25y 0w 0h" } },
 	{ MODKEY,                       XK_Up,     moveresize,     {.v = "0x -25y 0w 0h" } },
 	{ MODKEY,                       XK_Right,  moveresize,     {.v = "25x 0y 0w 0h" } },
@@ -188,6 +183,15 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = "0x 0y -25w 0h" } },
         { MODKEY,                       XK_g,      center,         {0} },
         { MODKEY,                       XK_End,         spawn,     SHCMD("sysact") },
+
+	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -q sset Master toggle; pkill -RTMIN+2 dwmblocks") },
+	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -q sset Master 1%+; pkill -RTMIN+2 dwmblocks") },
+	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -q sset Master 1%-; pkill -RTMIN+2 dwmblocks") },
+	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
+	{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
+	{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A; pkill -RTMIN+6 dwmblocks1") },
+	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U; pkill -RTMIN+6 dwmblocks1") },
 };
 
 #define STATUSBAR "dwmblocks"
@@ -217,3 +221,4 @@ static Button buttons[] = {
     { ClkTabNext,           0,              Button1,        movestack,      { .i = +1 } },
     { ClkTabClose,          0,              Button1,        killclient,     {0} },
 };
+
