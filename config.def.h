@@ -184,6 +184,7 @@ static Key keys[] = {
         { MODKEY,                       XK_g,      center,         {0} },
         { MODKEY,                       XK_End,         spawn,     SHCMD("sysact") },
 
+	{ 0, XK_Print,			spawn,		SHCMD("maimpick") },
 	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -q sset Master toggle; pkill -RTMIN+2 dwmblocks") },
 	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -q sset Master 1%+; pkill -RTMIN+2 dwmblocks") },
 	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -q sset Master 1%-; pkill -RTMIN+2 dwmblocks") },
