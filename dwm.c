@@ -234,7 +234,6 @@ static void focuswin(const Arg* arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
-static pid_t getstatusbarpid();
 static unsigned int getsystraywidth();
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
@@ -273,9 +272,12 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
+#ifndef __OpenBSD__
+static pid_t getstatusbarpid();
+static void sigstatusbar(const Arg *arg);
+#endif
 static void sighup(int unused);
 static void sigterm(int unused);
-static void sigstatusbar(const Arg *arg);
 static void spawn(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tabmode(const Arg *arg);
@@ -1445,6 +1447,7 @@ getatomprop(Client *c, Atom prop)
 	return atom;
 }
 
+#ifndef __OpenBSD__
 pid_t
 getstatusbarpid()
 {
@@ -1469,6 +1472,7 @@ getstatusbarpid()
 	pclose(fp);
 	return strtoul(buf, NULL, 10);
 }
+#endif
 
 int
 getrootptr(int *x, int *y)
@@ -2385,6 +2389,7 @@ sigchld(int unused)
 	while (0 < waitpid(-1, NULL, WNOHANG));
 }
 
+#ifndef __OpenBSD__
 void
 sigstatusbar(const Arg *arg)
 {
@@ -2398,6 +2403,7 @@ sigstatusbar(const Arg *arg)
 
 	sigqueue(statuspid, SIGRTMIN + statussig, sv);
 }
+#endif
 
 void
 sighup(int unused)
