@@ -1287,6 +1287,8 @@ drawtab(Monitor *m) {
 	drw_text(drw, x + horizpadtabo / 2, 0, w, th, 0, btn_close, 0);
 	x += w;
 
+	XClassHint ch = {"dwm", "tabwin"};
+	XSetClassHint(dpy, m->tabwin, &ch);
 
 	drw_map(drw, m->tabwin, 0, 0, m->ww, th);
 }
