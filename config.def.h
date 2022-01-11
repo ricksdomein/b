@@ -169,7 +169,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_e,      spawn,          SHCMD("j4-dmenu-desktop --usage-log=$HOME/.cache/desktop-dmenu") },
-	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu2") },
+	{ MODKEY,                       XK_p,      spawn,          SHCMD("dmenupassmenu") },
         { MODKEY,			XK_dead_acute,	spawn,	{.v = spcalc} },
         { MODKEY,			XK_apostrophe,	spawn,	{.v = spcalc} },
         { MODKEY|ShiftMask,		XK_Return,	spawn,	{.v = spterm} },
