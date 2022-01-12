@@ -367,6 +367,7 @@ struct Pertag {
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
 	Bool showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
+	Bool showtabs[LENGTH(tags) + 1];
 	Client *prevzooms[LENGTH(tags) + 1]; /* store zoom information */
 };
 
@@ -898,6 +899,9 @@ createmon(void)
 
 		/* init showbar */
 		m->pertag->showbars[i] = m->showbar;
+
+		/* init showtab */
+		m->pertag->showtabs[i] = m->showtab;
 
 		/* swap focus and zoomswap*/
 		m->pertag->prevzooms[i] = NULL;
@@ -2515,9 +2519,11 @@ void
 tabmode(const Arg *arg)
 {
 	if(arg && arg->i >= 0)
-		selmon->showtab = arg->ui % showtab_nmodes;
+    		selmon->showtab = selmon->pertag->showtabs[selmon->pertag->curtag] = arg->ui % showtab_nmodes;
+		//selmon->showtab = arg->ui % showtab_nmodes;
 	else
-		selmon->showtab = (selmon->showtab + 1 ) % showtab_nmodes;
+    		selmon->showtab = selmon->pertag->showtabs[selmon->pertag->curtag] = (selmon->showtab + 1 ) % showtab_nmodes;
+		//selmon->showtab = (selmon->showtab + 1 ) % showtab_nmodes;
 	arrange(selmon);
 }
 
@@ -2594,6 +2600,8 @@ toggleview(const Arg *arg)
 		selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
 		if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 			togglebar(NULL);
+		if (selmon->showtab != selmon->pertag->showtabs[selmon->pertag->curtag])
+			tabmode(NULL);
 		focus(NULL);
 		arrange(selmon);
 	}
@@ -3069,6 +3077,8 @@ view(const Arg *arg)
 	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
 	if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
 		togglebar(NULL);
+	if (selmon->showtab != selmon->pertag->showtabs[selmon->pertag->curtag])
+		tabmode(NULL);
 	focus(NULL);
 	arrange(selmon);
 }
