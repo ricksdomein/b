@@ -130,69 +130,126 @@ const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	//{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_w,      tabmode,        {-1} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_x,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-        { MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_space,  zoom,           {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_s,      togglesticky,   {0} },
-        { MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-        { MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
-	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_e,      spawn,          SHCMD("j4-dmenu-desktop --usage-log=$HOME/.cache/desktop-dmenu") },
-	{ MODKEY,                       XK_p,      spawn,          SHCMD("dmenupassmenu") },
-        { MODKEY,			XK_dead_acute,	spawn,	{.v = spcalc} },
-        { MODKEY,			XK_apostrophe,	spawn,	{.v = spcalc} },
-        { MODKEY|ShiftMask,		XK_Return,	spawn,	{.v = spterm} },
-	{ MODKEY,                       XK_Down,   moveresize,     {.v = "0x 25y 0w 0h" } },
-	{ MODKEY,                       XK_Up,     moveresize,     {.v = "0x -25y 0w 0h" } },
-	{ MODKEY,                       XK_Right,  moveresize,     {.v = "25x 0y 0w 0h" } },
-	{ MODKEY,                       XK_Left,   moveresize,     {.v = "-25x 0y 0w 0h" } },
-	{ MODKEY|ShiftMask,             XK_Down,   moveresize,     {.v = "0x 0y 0w 25h" } },
-	{ MODKEY|ShiftMask,             XK_Up,     moveresize,     {.v = "0x 0y 0w -25h" } },
-	{ MODKEY|ShiftMask,             XK_Right,  moveresize,     {.v = "0x 0y 25w 0h" } },
-	{ MODKEY|ShiftMask,             XK_Left,   moveresize,     {.v = "0x 0y -25w 0h" } },
-        { MODKEY,                       XK_g,      center,         {0} },
-        { MODKEY,                       XK_End,         spawn,     SHCMD("sysact") },
+	//XK_Return
+	{ MODKEY,                       36, spawn,          {.v = termcmd } },
+	//XK_b
+	{ MODKEY,                       56,      togglebar,      {0} },
+	//XK_w
+	{ MODKEY,                       25,      tabmode,        {-1} },
+	//XK_j
+	{ MODKEY,                       44,      focusstack,     {.i = +1 } },
+	//XK_k
+	{ MODKEY,                       45,      focusstack,     {.i = -1 } },
+	//XK_i
+	{ MODKEY,                       31,      incnmaster,     {.i = +1 } },
+	//XK_d
+	{ MODKEY,                       40,      incnmaster,     {.i = -1 } },
+	//XK_h
+	{ MODKEY,                       43,      setmfact,       {.f = -0.05} },
+	//XK_l
+	{ MODKEY,                       46,      setmfact,       {.f = +0.05} },
+	//XK_Tab
+	{ MODKEY,                       23,    view,           {0} },
+	//XK_x
+	{ MODKEY,                       53,      killclient,     {0} },
+	//XK_t
+	{ MODKEY,                       28,      setlayout,      {.v = &layouts[0]} },
+	//XK_f
+	{ MODKEY,                       41,      setlayout,      {.v = &layouts[1]} },
+	//XK_m
+	{ MODKEY,                       58,      setlayout,      {.v = &layouts[2]} },
+	//XK_r
+        { MODKEY,                       27,      setlayout,      {.v = &layouts[3]} },
+	//XK_space
+	{ MODKEY,                       65,  zoom,           {0} },
+	//XK_space
+	{ MODKEY|ShiftMask,             65,  togglefloating, {0} },
+	//XK_s
+	{ MODKEY,                       39,      togglesticky,   {0} },
+	//XK_f
+        { MODKEY|ShiftMask,             41,      togglefullscr,  {0} },
+	//XK_0
+	{ MODKEY,                       19,      view,           {.ui = ~0 } },
+	//XK_0
+	{ MODKEY|ShiftMask,             19,      tag,            {.ui = ~0 } },
+	//XK_comma
+	{ MODKEY,                       59,  focusmon,       {.i = -1 } },
+	//XK_period
+	{ MODKEY,                       60, focusmon,       {.i = +1 } },
+	//XK_comma
+	{ MODKEY|ShiftMask,             59,  tagmon,         {.i = -1 } },
+	//XK_period
+	{ MODKEY|ShiftMask,             60, tagmon,         {.i = +1 } },
+	//XK_1
+	TAGKEYS(                        10,                      0)
+	//XK_2
+	TAGKEYS(                        11,                      1)
+	//XK_3
+	TAGKEYS(                        12,                      2)
+	//XK_4
+	TAGKEYS(                        13,                      3)
+	//XK_5
+	TAGKEYS(                        14,                      4)
+	//XK_6
+	TAGKEYS(                        15,                      5)
+	//XK_7
+	TAGKEYS(                        16,                      6)
+	//XK_8
+	TAGKEYS(                        17,                      7)
+	//XK_9
+	TAGKEYS(                        18,                      8)
+	//XK_q
+	{ MODKEY|ShiftMask,             24,      quit,           {0} },
+	//XK_q
+        { MODKEY|ControlMask|ShiftMask, 24,      quit,           {1} },
+	//XK_j
+	{ MODKEY|ShiftMask,             44,      movestack,      {.i = +1 } },
+	//XK_k
+	{ MODKEY|ShiftMask,             45,      movestack,      {.i = -1 } },
+	//XK_e
+	{ MODKEY,                       26,      spawn,          SHCMD("j4-dmenu-desktop --usage-log=$HOME/.cache/desktop-dmenu") },
+	//XK_p
+	{ MODKEY,                       33,      spawn,          SHCMD("dmenupassmenu") },
+	//XK_dead_acute
+        { MODKEY,			48,	spawn,	{.v = spcalc} },
+	//XK_apostrophe
+        { MODKEY,			48,	spawn,	{.v = spcalc} },
+	//XK_Return
+        { MODKEY|ShiftMask,		36,	spawn,	{.v = spterm} },
+	//XK_Down
+	{ MODKEY,                       116,   moveresize,     {.v = "0x 25y 0w 0h" } },
+	//XK_Up
+	{ MODKEY,                       111,     moveresize,     {.v = "0x -25y 0w 0h" } },
+	//XK_Right
+	{ MODKEY,                       114,  moveresize,     {.v = "25x 0y 0w 0h" } },
+	//XK_Left
+	{ MODKEY,                       113,   moveresize,     {.v = "-25x 0y 0w 0h" } },
+	//XK_Down
+	{ MODKEY|ShiftMask,             116,   moveresize,     {.v = "0x 0y 0w 25h" } },
+	//XK_Up
+	{ MODKEY|ShiftMask,             111,     moveresize,     {.v = "0x 0y 0w -25h" } },
+	//XK_Right
+	{ MODKEY|ShiftMask,             114,  moveresize,     {.v = "0x 0y 25w 0h" } },
+	//XK_Left
+	{ MODKEY|ShiftMask,             113,   moveresize,     {.v = "0x 0y -25w 0h" } },
+	//XK_g
+        { MODKEY,                       42,      center,         {0} },
+	//XK_End
+        { MODKEY,                       115,         spawn,     SHCMD("sysact") },
+	//XK_l
+        { MODKEY,                       46,         spawn,     SHCMD("kbselect") },
 
-	{ 0, XK_Print,			spawn,		SHCMD("maimpick") },
-	{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -q sset Master toggle; pkill -RTMIN+2 dwmblocks") },
-	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -q sset Master 1%+; pkill -RTMIN+2 dwmblocks") },
-	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -q sset Master 1%-; pkill -RTMIN+2 dwmblocks") },
-	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
-	{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A; pkill -RTMIN+6 dwmblocks1") },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U; pkill -RTMIN+6 dwmblocks1") },
+	//XK_Print
+	{ 0, 107,			spawn,		SHCMD("maimpick") },
+	//XF86XK_AudioMute
+	//{ 0, XF86XK_AudioMute,		spawn,		SHCMD("amixer -q sset Master toggle; pkill -RTMIN+2 dwmblocks") },
+	//{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -q sset Master 1%+; pkill -RTMIN+2 dwmblocks") },
+	//{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -q sset Master 1%-; pkill -RTMIN+2 dwmblocks") },
+	//{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
+	//{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
+	//{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
+	//{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A; pkill -RTMIN+6 dwmblocks1") },
+	//{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U; pkill -RTMIN+6 dwmblocks1") },
 };
 
 #define STATUSBAR "dwmblocks"
