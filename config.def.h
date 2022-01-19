@@ -90,6 +90,7 @@ static const Rule rules[] = {
 	//{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ NULL,   "spterm",       NULL,       0,            1,           -1 },
+	{ "spterm",   NULL,       NULL,       0,            1,           -1 },
 	{ NULL,   "spcalc",       NULL,       0,            1,           -1 },
 };
 
@@ -121,7 +122,8 @@ static const Layout layouts[] = {
 /* commands */
 static const char *termcmd[]  = { TERMINAL, "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
 //const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
-const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
+//const char *spterm[] = {TERMINAL, "-n", "spterm", "-g", "120x34", "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
+const char *spterm[] = {TERMINAL, "-c", "spterm", "-g", "75x20", "-e", "nvim", "-c", ":terminal", "-c", ":startinsert", NULL };
 //const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 const char *spcalc[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "nvim", "-c" ":terminal bc -lq", "-c", ":startinsert", NULL };
 
@@ -237,7 +239,7 @@ static Key keys[] = {
 	//XK_End
         { MODKEY,                       115,         spawn,     SHCMD("sysact") },
 	//XK_l
-        { MODKEY,                       46,         spawn,     SHCMD("kbselect") },
+        { MODKEY|ShiftMask,             46,         spawn,     SHCMD("kbselect") },
 
 	//XK_Print
 	{ 0, 107,			spawn,		SHCMD("maimpick") },
