@@ -1,3 +1,3 @@
-# rodenticide
+# rodenticide-wm
 
-rodenticide is a simple Window Manager with no fat library dependencies and no rodent dependence.
+rodenticide-wm is a simple Window Manager with no fat library dependencies and no rodent dependence.
