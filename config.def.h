@@ -215,7 +215,7 @@ static Key keys[] = {
 	//XK_dead_acute
         { MODKEY,			48,	spawn,	{.v = spcalc} },
 	//XK_apostrophe
-        { MODKEY,			48,	spawn,	{.v = spcalc} },
+        //{ MODKEY,			48,	spawn,	{.v = spcalc} },
 	//XK_Return
         { MODKEY|ShiftMask,		36,	spawn,	{.v = spterm} },
 	//XK_Down
