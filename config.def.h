@@ -247,13 +247,17 @@ static Key keys[] = {
 	{ 0, 				121,	 spawn,		 SHCMD("pamixer -t; pkill -RTMIN+2 dwmblocks") },
 	//{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("amixer -q sset Master 1%+; pkill -RTMIN+2 dwmblocks") },
 	{ 0, 				123,	 spawn,		 SHCMD("pamixer --allow-boost -i 1; pkill -RTMIN+2 dwmblocks") },
+	{ ShiftMask, 			123,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	//{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("amixer -q sset Master 1%-; pkill -RTMIN+2 dwmblocks") },
 	{ 0, 				122,	 spawn,		 SHCMD("pamixer --allow-boost -d 1; pkill -RTMIN+2 dwmblocks") },
+	{ ShiftMask, 			122,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
 	//{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	//{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
 	//{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
-	//{ 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A; pkill -RTMIN+6 dwmblocks1") },
-	//{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U; pkill -RTMIN+6 dwmblocks1") },
+	//XF86XK_MonBrightnessUp
+	{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
+	//XF86XK_MonBrightnessDown
+	{ 0, 				122,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
 };
 
 #define STATUSBAR "dwmblocks"
