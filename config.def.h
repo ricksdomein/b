@@ -255,9 +255,9 @@ static Key keys[] = {
 	//{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
 	//{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
 	//XF86XK_MonBrightnessUp
-	{ 0, 				123,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	//XF86XK_MonBrightnessDown
-	{ 0, 				122,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
 };
 
 #define STATUSBAR "dwmblocks"
