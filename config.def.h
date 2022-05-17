@@ -258,6 +258,9 @@ static Key keys[] = {
 	{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	//XF86XK_MonBrightnessDown
 	{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
+        { ControlMask, 			65,      spawn,          SHCMD("dunstctl close") },
+        { ControlMask, 			49,      spawn,          SHCMD("dunstctl history-pop") },
+	// { ControlMask|ShiftMask,	65,      spawn,          SHCMD("dunstctl set-paused toggle; pkill -RTMIN+16 dwmblocks") },
 };
 
 #define STATUSBAR "dwmblocks"
