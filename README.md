@@ -1,3 +1,3 @@
-# mouseless-wm
+# Mousepoison Window Manager
 
-mouseless-wm is a simple Window Manager with no fat library dependencies and no rodent dependence.
+Mousepoison Window Manger is a simple Window Manager with no fat library dependencies and no mouse dependence.
