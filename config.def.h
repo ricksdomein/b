@@ -257,10 +257,10 @@ static Key keys[] = {
 	//XF86AudioMicMute
 	{ 0, 				198,	 spawn,		 SHCMD("amixer -q sset Capture toggle; pkill -RTMIN+13 dwmblocks") },
 	//XF86XK_MonBrightnessUp
-	{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
+	//{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	{ 0, 				233,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	//XF86XK_MonBrightnessDown
-	{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
+	//{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
 	{ 0, 				232,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
         { ControlMask, 			65,      spawn,          SHCMD("dunstctl close") },
         { ControlMask, 			49,      spawn,          SHCMD("dunstctl history-pop") },
