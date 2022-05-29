@@ -254,10 +254,14 @@ static Key keys[] = {
 	//{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	//{ 0, XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
 	//{ 0, XF86XK_TouchpadOn,		spawn,		SHCMD("synclient TouchpadOff=0") },
+	//XF86AudioMicMute
+	{ 0, 				198,	 spawn,		 SHCMD("amixer -q sset Capture toggle; pkill -RTMIN+13 dwmblocks") },
 	//XF86XK_MonBrightnessUp
 	{ 0, 				133,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, 				233,	 spawn,		 SHCMD("light -A 1; pkill -RTMIN+6 dwmblocks") },
 	//XF86XK_MonBrightnessDown
 	{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
+	{ 0, 				232,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
         { ControlMask, 			65,      spawn,          SHCMD("dunstctl close") },
         { ControlMask, 			49,      spawn,          SHCMD("dunstctl history-pop") },
 	{ ControlMask|ShiftMask,	65,      spawn,          SHCMD("[ $(dunstctl is-paused) = true ] && killall -SIGUSR2 dunst || killall -SIGUSR1 dunst; pkill -RTMIN+16 dwmblocks") },
