@@ -541,7 +541,7 @@ buttonpress(XEvent *e)
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
         else if (ev->x > selmon->ww - statusw - getsystraywidth()) {
-            x = selmon->ww - statusw;
+            x = selmon->ww - statusw - getsystraywidth();
 			click = ClkStatusText;
 
 			char *text, *s, ch;
