@@ -35,7 +35,8 @@ static const unsigned int colorfultag    = 1;  /* 0 means use SchemeSel for sele
 
 // theme
 static const char text[]        = "#bbbbbb";
-static const char black[]       = "#1e222a";
+//static const char black[]       = "#1e222a";
+static const char black[]       = "#2e3440";
 static const char gray2[]       = "#2e323a"; // unfocused window border
 static const char gray3[]       = "#545862";
 static const char gray4[]       = "#6d8dad";
@@ -220,20 +221,36 @@ static Key keys[] = {
         { MODKEY|ShiftMask,		36,	 spawn,		 {.v = spterm} },
 	//XK_Down
 	{ MODKEY,                       116,   	 moveresize,     {.v = "0x 25y 0w 0h" } },
+	//XK_j
+	{ MODKEY|ControlMask,                       44,   	 moveresize,     {.v = "0x 25y 0w 0h" } },
 	//XK_Up
 	{ MODKEY,                       111,     moveresize,     {.v = "0x -25y 0w 0h" } },
+	//XK_k
+	{ MODKEY|ControlMask,                       45,     moveresize,     {.v = "0x -25y 0w 0h" } },
 	//XK_Right
 	{ MODKEY,                       114,  	 moveresize,     {.v = "25x 0y 0w 0h" } },
+	//XK_l
+	{ MODKEY|ControlMask,                       46,  	 moveresize,     {.v = "25x 0y 0w 0h" } },
 	//XK_Left
 	{ MODKEY,                       113,   	 moveresize,     {.v = "-25x 0y 0w 0h" } },
+	//XK_h
+	{ MODKEY|ControlMask,                       43,   	 moveresize,     {.v = "-25x 0y 0w 0h" } },
 	//XK_Down
 	{ MODKEY|ShiftMask,             116,   	 moveresize,     {.v = "0x 0y 0w 25h" } },
+	//XK_j
+	{ MODKEY|ShiftMask|ControlMask,             44,   	 moveresize,     {.v = "0x 0y 0w 25h" } },
 	//XK_Up
 	{ MODKEY|ShiftMask,             111,     moveresize,     {.v = "0x 0y 0w -25h" } },
+	//XK_k
+	{ MODKEY|ShiftMask|ControlMask,             45,     moveresize,     {.v = "0x 0y 0w -25h" } },
 	//XK_Right
 	{ MODKEY|ShiftMask,             114,  	 moveresize,     {.v = "0x 0y 25w 0h" } },
+	//XK_l
+	{ MODKEY|ShiftMask|ControlMask,             46,  	 moveresize,     {.v = "0x 0y 25w 0h" } },
 	//XK_Left
 	{ MODKEY|ShiftMask,             113,   	 moveresize,     {.v = "0x 0y -25w 0h" } },
+	//XK_h
+	{ MODKEY|ShiftMask|ControlMask,             43,   	 moveresize,     {.v = "0x 0y -25w 0h" } },
 	//XK_g
         { MODKEY,                       42,      center,         {0} },
 	//XK_End
@@ -262,8 +279,11 @@ static Key keys[] = {
 	//XF86XK_MonBrightnessDown
 	//{ 0, 				132,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
 	{ 0, 				232,	 spawn,		 SHCMD("light -U 1; pkill -RTMIN+6 dwmblocks") },
+	//XK_space
         { ControlMask, 			65,      spawn,          SHCMD("dunstctl close") },
+	//XK_grave
         { ControlMask, 			49,      spawn,          SHCMD("dunstctl history-pop") },
+	//XK_space
 	{ ControlMask|ShiftMask,	65,      spawn,          SHCMD("[ $(dunstctl is-paused) = true ] && killall -SIGUSR2 dunst || killall -SIGUSR1 dunst; pkill -RTMIN+16 dwmblocks") },
 };
 
